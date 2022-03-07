@@ -1,10 +1,12 @@
-from FolderIndex import FolderIndex
+from pathlib import Path
+
+from src.ff.folder_index import FolderIndex
 
 
 class FileFilter:
     def __init__(self, root_dir):
-        self.root_dir = root_dir
-        self.folder_indices = [FolderIndex(root_dir)]
+        self.root_dir = Path(root_dir)
+        self.folder_indices = [FolderIndex(self.root_dir)]
 
     def filter(self):
         old_index = self.folder_indices[-1].index.values.tolist()
