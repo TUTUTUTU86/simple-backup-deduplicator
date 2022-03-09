@@ -11,8 +11,8 @@ def test_file_filter():
     data_dir.mkdir(exist_ok=True, parents=True)
 
     file_name = data_dir / "file.txt"
-    # with open(file_name, "w") as f:
-    #     f.write("123\n")
+    with open(file_name, "w") as f:
+        f.write("123\n")
 
     file_filter = FileFilter(data_dir)
 
