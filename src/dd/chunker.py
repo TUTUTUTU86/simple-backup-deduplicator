@@ -9,6 +9,6 @@ class Chunker:
     @staticmethod
     def chunk(file: Path):
         with file.open("rb") as stream:
-            chunks = fastcdc_py.fastcdc_py(stream)
+            chunks = list(fastcdc_py.fastcdc_py(stream))
         return chunks
 
