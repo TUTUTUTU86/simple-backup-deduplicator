@@ -1,14 +1,18 @@
-from pathlib import Path
 from fastcdc import fastcdc_py
+from xxhash import xxh64
 
 
 class Chunker:
-    def __init__(self):
-        ...
+    def __init__(self, avg_size):
+        self.avg_size = avg_size
 
-    @staticmethod
-    def chunk(file: Path):
-        with file.open("rb") as stream:
-            chunks = list(fastcdc_py.fastcdc_py(stream))
+    def do(self, data):
+        chunks = list(fastcdc_py.fastcdc_py(data=data,
+                                            avg_size=self.avg_size,
+                                            min_size=self.avg_size // 2,
+                                            max_size=self.avg_size * 2,
+                                            fat=True,
+                                            hf=xxh64))
+        for chunk in chunks:
+            chunk.length = len(chunk.data)
         return chunks
-
