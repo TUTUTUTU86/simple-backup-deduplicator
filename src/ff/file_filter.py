@@ -14,5 +14,5 @@ class FileFilter:
         result = new_index.merge(old_index, indicator=True, how='left')
         result = result[result._merge == 'left_only']
         result.drop('_merge', axis=1, inplace=True)
-        return result;
+        return result
 

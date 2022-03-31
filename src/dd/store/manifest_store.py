@@ -1,6 +1,6 @@
 import shelve
 
-from segmenter import Manifest
+from src.dd.align.segmenter import Manifest
 
 
 class ManifestStore:

@@ -1,25 +1,41 @@
+import numpy as np
 import hydra
 from hydra.utils import instantiate
 from omegaconf import DictConfig
 
 from defaults import CONFIGS_ROOT, DATA_ROOT, RESULTS_ROOT
+from src.dd.store.manifest_store import ManifestStore
+from src.dd.deduplicator import Deduplicator
+
+
+class CaptainHook:
+    def __init__(self, hook_prefix_len):
+        self.hook_len = hook_prefix_len
+        self.pref_len = int(4 * np.ceil(hook_prefix_len / 4))
+
+    def is_hook(self, h):
+        pref = h[:self.pref_len // 4]
+        pref = int(pref, 16)
+        return pref < 2 ** (self.pref_len - self.hook_len)
 
 
 class SparseIndex:
     def __init__(self, cfg: DictConfig):
         self.data_aligner = instantiate(cfg.data_aligner)
+        self.captain_hook = instantiate(cfg.captain_hook)
+        self.manifest_store = ManifestStore()
+        self.deduplicator = Deduplicator(manifest_store=self.manifest_store)
 
     def do(self, files):
         for i, segment in enumerate(self.data_aligner.do(files)):
-            print(i)
             hooks = []
             for chunk in segment.chunks:
-                if is_hook(chunk.hash):
+                if self.captain_hook.is_hook(chunk.hash):
                     hooks.append(chunk.hash)
 
             champions = self.champion_chooser.choose(hooks)
             manifest = self.deduplicator.do(segment, champions)
-            self.champion_chooser.add(manifest)
+            self.champion_chooser.add(manifest, hooks)
 
 
 @hydra.main(config_path=CONFIGS_ROOT, config_name="sparse_index")

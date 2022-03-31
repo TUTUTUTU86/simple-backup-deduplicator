@@ -1,4 +1,4 @@
-class SparseIndex:
+class SparseIndexOmega:
     def __init__(self):
         self.sparse_index = {}
         self.max_segments_id = 2
@@ -15,6 +15,10 @@ class SparseIndex:
                 id_list.pop(0)
                 id_list.append(segment_id)
                 self.sparse_index.update({hook: id_list})
+
+    def get(self, hook):
+        self.sparse_index.get(hook, default=None)
+
 
 
 
