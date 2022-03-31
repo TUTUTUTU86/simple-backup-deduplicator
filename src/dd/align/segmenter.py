@@ -12,6 +12,11 @@ class Segment:
         self.size += chunk.length
 
 
+class Manifest:
+    def __init__(self):
+        self.hash_list = []
+
+
 class Segmenter:
     def __init__(self):
         ...

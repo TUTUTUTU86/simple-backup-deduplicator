@@ -1,9 +1,8 @@
 from pathlib import Path
-import shutil
 
-from src.dd.data_aligner import DataAligner
+from src.dd.align.data_aligner import DataAligner
 
-from src.dd.chunker import Chunker
+from src.dd.align.chunker import Chunker
 
 
 def test_chunker():

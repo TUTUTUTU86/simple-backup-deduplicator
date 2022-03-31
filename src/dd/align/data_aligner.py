@@ -1,5 +1,5 @@
-from src.dd.chunker import Chunker
-from src.dd.segmenter import FixedSizeSegmenter
+from src.dd.align.chunker import Chunker
+from src.dd.align.segmenter import FixedSizeSegmenter
 
 
 class DataAligner:
