@@ -1,5 +1,5 @@
 data_aligner:
-  _target_: src.dd.data_aligner.DataAligner
+  _target_: src.dd.align.data_aligner.DataAligner
   chunk_size: 8192
   segment_size: 2097152
 

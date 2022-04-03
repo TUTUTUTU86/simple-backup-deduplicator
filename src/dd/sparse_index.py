@@ -6,6 +6,8 @@ from omegaconf import DictConfig
 from defaults import CONFIGS_ROOT, DATA_ROOT, RESULTS_ROOT
 from src.dd.store.manifest_store import ManifestStore
 from src.dd.deduplicator import Deduplicator
+from src.dd.champion_chooser import ChampionChooser
+from src.dd.align.segmenter import Manifest
 
 
 class CaptainHook:
@@ -23,8 +25,9 @@ class SparseIndex:
     def __init__(self, cfg: DictConfig):
         self.data_aligner = instantiate(cfg.data_aligner)
         self.captain_hook = instantiate(cfg.captain_hook)
-        self.manifest_store = ManifestStore()
+        self.manifest_store = ManifestStore(file_name="manifest.store")
         self.deduplicator = Deduplicator(manifest_store=self.manifest_store)
+        self.champion_chooser = ChampionChooser(5, self.manifest_store)
 
     def do(self, files):
         for i, segment in enumerate(self.data_aligner.do(files)):
@@ -32,8 +35,9 @@ class SparseIndex:
             for chunk in segment.chunks:
                 if self.captain_hook.is_hook(chunk.hash):
                     hooks.append(chunk.hash)
-
+            print(hooks)
             champions = self.champion_chooser.choose(hooks)
+            print(champions)
             manifest = self.deduplicator.do(segment, champions)
             self.champion_chooser.add(manifest, hooks)
 
