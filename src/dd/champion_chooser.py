@@ -21,10 +21,10 @@ class ChampionChooser:
                     for segment_id in self.sparse_index.get(hook):
                         if segment_id in segments_score:
                             segments_score[segment_id] += 1
-                            segments_hooks[segment_id] = set([hook])
+                            segments_hooks[segment_id].update({hook})
                         else:
                             segments_score[segment_id] = 1
-                            segments_hooks[segment_id].update(set([hook]))
+                            segments_hooks[segment_id] = {hook}
 
             max_score = 0
             for segment in segments_score:

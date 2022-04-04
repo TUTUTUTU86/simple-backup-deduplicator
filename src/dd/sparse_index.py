@@ -35,11 +35,12 @@ class SparseIndex:
             for chunk in segment.chunks:
                 if self.captain_hook.is_hook(chunk.hash):
                     hooks.append(chunk.hash)
-            print(hooks)
+            # print(hooks)
             champions = self.champion_chooser.choose(hooks)
-            print(champions)
+            # print(champions)
             manifest = self.deduplicator.do(segment, champions)
             self.champion_chooser.add(manifest, hooks)
+        self.deduplicator.print()
 
 
 @hydra.main(config_path=CONFIGS_ROOT, config_name="sparse_index")

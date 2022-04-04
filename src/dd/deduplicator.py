@@ -32,7 +32,5 @@ class Deduplicator:
 
         return manifest
 
-
-
-
-
+    def print(self):
+        print("New: ", self.n_new, "Deduplicated: ", self.n_dedup, "Duplicates: ", self.n_dup)

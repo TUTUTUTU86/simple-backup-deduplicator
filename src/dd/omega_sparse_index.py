@@ -17,7 +17,7 @@ class SparseIndexOmega:
                 self.sparse_index.update({hook: id_list})
 
     def get(self, hook):
-        self.sparse_index.get(hook, default=None)
+        return self.sparse_index.get(hook)
 
 
 
