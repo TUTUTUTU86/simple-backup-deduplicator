@@ -1,11 +1,11 @@
 from src.dd.align.chunker import Chunker
-from src.dd.align.segmenter import FixedSizeSegmenter
+from src.dd.align.segmenter import FixedSizeSegmenter, AbstractSegmenter
 
 
 class DataAligner:
-    def __init__(self, chunk_size, segment_size):
+    def __init__(self, chunk_size, segmenter: AbstractSegmenter):
         self.chunker = Chunker(avg_size=chunk_size)
-        self.segmenter = FixedSizeSegmenter(segment_size=segment_size)
+        self.segmenter = segmenter
 
     def do(self, files: list):
         for file in files:

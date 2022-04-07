@@ -1,8 +1,21 @@
 data_aligner:
   _target_: src.dd.align.data_aligner.DataAligner
-  chunk_size: 8192
-  segment_size: 2097152
+  chunk_size: &chunk_size 8192
+  segmenter:
+    _target_: src.dd.align.segmenter.FixedSizeSegmenter
+    segment_size: 2097152
+#  segmenter:
+#    _target_: src.dd.align.segmenter.VariableSizeSegmenter
+#    chunk_size: *chunk_size
+#    rolling_hash:
+#      q: 1000000007
+#      x: 7
+#    segment_size: 2097152
+
 
 captain_hook:
   _target_: src.dd.sparse_index.CaptainHook
   hook_prefix_len: 4
+
+
+

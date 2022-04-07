@@ -20,7 +20,7 @@ class Deduplicator:
         manifest = Manifest()
         for chunk in segment.chunks:
             if chunk.hash not in champions_hashes:
-                result = self.chunk_store.store(chunk)
+                result = self.chunk_store.store(chunk.hash)
                 if result == 0:
                     self.n_new += 1
                 else:
