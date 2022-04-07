@@ -2,6 +2,7 @@ import numpy as np
 import hydra
 from hydra.utils import instantiate
 from omegaconf import DictConfig
+from collections import Counter
 
 from defaults import CONFIGS_ROOT, DATA_ROOT, RESULTS_ROOT
 from src.dd.store.manifest_store import ManifestStore
@@ -30,8 +31,10 @@ class SparseIndex:
         self.champion_chooser = ChampionChooser(5, self.manifest_store)
 
     def do(self, files):
+        counter = Counter()
         for i, segment in enumerate(self.data_aligner.do(files)):
             hooks = []
+            counter[segment.chunks[-1]] += 1
             for chunk in segment.chunks:
                 if self.captain_hook.is_hook(chunk.hash):
                     hooks.append(chunk.hash)
@@ -40,6 +43,11 @@ class SparseIndex:
             # print(champions)
             manifest = self.deduplicator.do(segment, champions)
             self.champion_chooser.add(manifest, hooks)
+        n = sum(counter.values())
+        e = 0
+        for c in counter:
+            e -= counter[c] / n * np.log2(counter[c] / n)
+        print(e)
         self.deduplicator.print()
 
 
