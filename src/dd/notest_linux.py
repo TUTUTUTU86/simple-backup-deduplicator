@@ -1,7 +1,7 @@
 import subprocess
 from pathlib import Path
 from enum import Enum
-
+import logging
 import hydra
 from omegaconf import DictConfig
 
@@ -29,11 +29,12 @@ class LunixTest:
         self.sparse_index = SparseIndex(cfg)
 
     def deduplicate_zips(self,  versions: list):
-        self.sparse_index.do([LINUX_DATA_ROOT / data.value for data in versions])
+        self.sparse_index.do([(LINUX_DATA_ROOT / data.value[0]) for data in versions])
 
 
- @hydra.main(config_path=CONFIGS_ROOT, config_name="sparse_index")
+@hydra.main(config_path=CONFIGS_ROOT, config_name="sparse_index")
 def main(cfg: DictConfig):
+    logging.basicConfig(filename="sample.log", level=logging.INFO)
     linux_test = LunixTest(cfg)
     linux_test.deduplicate_zips([LinuxDataZip.VERSION_5_12, LinuxDataZip.VERSION_5_13])
 

@@ -1,6 +1,7 @@
 from src.dd.store.manifest_store import ManifestStore
 from src.dd.align.segmenter import Manifest
 from src.dd.store.chunk_store import ChunkStore
+import logging
 
 
 class Deduplicator:
@@ -34,3 +35,5 @@ class Deduplicator:
 
     def print(self):
         print("New: ", self.n_new, "Deduplicated: ", self.n_dedup, "Duplicates: ", self.n_dup)
+        logging.info("Deduplication results:")
+        logging.info("New: " + str(self.n_new) + " Deduplicated: " + str(self.n_dedup) + " Duplicates: " + str(self.n_dup))

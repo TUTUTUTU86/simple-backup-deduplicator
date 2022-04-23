@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="PYTHON_MODULE" version="4">
   <component name="NewModuleRootManager">
-    <content url="file://$MODULE_DIR$" />
+    <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/data/dd_test" />
+      <excludeFolder url="file://$MODULE_DIR$/data/hehe" />
+      <excludeFolder url="file://$MODULE_DIR$/data/linux_test" />
+      <excludeFolder url="file://$MODULE_DIR$/data/test" />
+      <excludeFolder url="file://$MODULE_DIR$/results/.hydra" />
+      <excludeFolder url="file://$MODULE_DIR$/test/.pytest_cache" />
+    </content>
     <orderEntry type="jdk" jdkName="Python 3.9" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>

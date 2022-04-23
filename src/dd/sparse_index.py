@@ -1,5 +1,6 @@
 import numpy as np
 import hydra
+import logging
 from hydra.utils import instantiate
 from omegaconf import DictConfig
 from collections import Counter
@@ -48,6 +49,7 @@ class SparseIndex:
         for c in counter:
             e -= counter[c] / n * np.log2(counter[c] / n)
         print(e)
+        logging.info("Entropy: " + str(e))
         self.deduplicator.print()
 
 
