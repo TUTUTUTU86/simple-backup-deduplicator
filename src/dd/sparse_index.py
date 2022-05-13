@@ -30,12 +30,12 @@ class SparseIndex:
         self.manifest_store = ManifestStore(file_name="manifest.store")
         self.deduplicator = Deduplicator(manifest_store=self.manifest_store)
         self.champion_chooser = ChampionChooser(5, self.manifest_store)
+        self.global_counter = Counter()
 
     def do(self, files):
-        counter = Counter()
         for i, segment in enumerate(self.data_aligner.do(files)):
             hooks = []
-            counter[segment.chunks[-1]] += 1
+            self.global_counter[segment.chunks[-1].hash] += 1
             for chunk in segment.chunks:
                 if self.captain_hook.is_hook(chunk.hash):
                     hooks.append(chunk.hash)
@@ -44,13 +44,16 @@ class SparseIndex:
             # print(champions)
             manifest = self.deduplicator.do(segment, champions)
             self.champion_chooser.add(manifest, hooks)
-        n = sum(counter.values())
-        e = 0
-        for c in counter:
-            e -= counter[c] / n * np.log2(counter[c] / n)
-        print(e)
-        logging.info("Entropy: " + str(e))
+        self.print()
         self.deduplicator.print()
+
+    def print(self):
+        e = 0
+        n = sum(self.global_counter.values())
+        for c in self.global_counter:
+            e -= self.global_counter[c] / n * np.log2(self.global_counter[c] / n)
+        print("Total entropy: " + str(e))
+        logging.info("Total entropy: " + str(e))
 
 
 @hydra.main(config_path=CONFIGS_ROOT, config_name="sparse_index")

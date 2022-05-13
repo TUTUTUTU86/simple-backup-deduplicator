@@ -1,6 +1,6 @@
 data_aligner:
-  _target_: src.dd.align.data_aligner.PrimitiveDataAligner
-  chunk_size: &chunk_size 8192
+  _target_: src.dd.align.data_aligner.DataAligner
+  chunk_size: &chunk_size 1024
 #  segmenter:
 #    _target_: src.dd.align.segmenter.FixedSizeSegmenter
 #    segment_size: 2097152
@@ -10,7 +10,7 @@ data_aligner:
     rolling_hash:
       q: 1000000007
       x: 7
-    segment_size: 2097152
+    segment_size: 1048576
 
 
 captain_hook:

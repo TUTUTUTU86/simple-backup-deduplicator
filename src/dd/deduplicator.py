@@ -12,6 +12,7 @@ class Deduplicator:
         self.n_new = 0
         self.n_dup = 0
         self.n_dedup = 0
+        self.total_saved_space = 0
 
     def do(self, segment, champions) -> Manifest:
         champions_hashes = set()
@@ -21,13 +22,14 @@ class Deduplicator:
         manifest = Manifest()
         for chunk in segment.chunks:
             if chunk.hash not in champions_hashes:
-                result = self.chunk_store.store(chunk.hash)
+                result = self.chunk_store.store(chunk)
                 if result == 0:
                     self.n_new += 1
                 else:
                     self.n_dup += 1
             else:
                 self.n_dedup += 1
+                self.total_saved_space += chunk.length
 
             manifest.hash_list.append(chunk.hash)
 
@@ -37,3 +39,5 @@ class Deduplicator:
         print("New: ", self.n_new, "Deduplicated: ", self.n_dedup, "Duplicates: ", self.n_dup)
         logging.info("Deduplication results:")
         logging.info("New: " + str(self.n_new) + " Deduplicated: " + str(self.n_dedup) + " Duplicates: " + str(self.n_dup))
+        self.chunk_store.print()
+        logging.info("Total saved space: " + str(self.total_saved_space))

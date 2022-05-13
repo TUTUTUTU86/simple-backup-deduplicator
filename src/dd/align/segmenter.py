@@ -22,8 +22,9 @@ class Manifest:
 
 class AbstractSegmenter:
 
-    def __init__(self):
+    def __init__(self, segment_size):
         self.current_segment = Segment()
+        self.segment_size = segment_size
 
     def push(self, chunk: Chunk):
         ...
@@ -40,8 +41,7 @@ class AbstractSegmenter:
 class FixedSizeSegmenter(AbstractSegmenter):
 
     def __init__(self, segment_size):
-        super().__init__()
-        self.segment_size = segment_size
+        super().__init__(segment_size)
 
     def push(self, chunk: Chunk):
         if self.current_segment.size + chunk.length < self.segment_size:
@@ -55,8 +55,7 @@ class FixedSizeSegmenter(AbstractSegmenter):
 
 class VariableSizeSegmenter(AbstractSegmenter):
     def __init__(self, chunk_size, segment_size, rolling_hash):
-        super().__init__()
-        self.segment_size = segment_size
+        super().__init__(segment_size)
         self.min_segment_size = 0.7 * segment_size
         self.max_segment_size = 1.3 * segment_size
         self.main_divisor = int(0.6 * segment_size / chunk_size)
