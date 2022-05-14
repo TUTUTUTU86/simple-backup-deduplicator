@@ -1,5 +1,5 @@
 data_aligner:
-  _target_: src.dd.align.data_aligner.MyDataAligner
+  _target_: src.dd.align.data_aligner.DataAlignerV2
   chunk_size: &chunk_size 1024
 #  segmenter:
 #    _target_: src.dd.align.segmenter.FixedSizeSegmenter
@@ -16,6 +16,5 @@ data_aligner:
 captain_hook:
   _target_: src.dd.sparse_index.CaptainHook
   hook_prefix_len: 4
-
 
 

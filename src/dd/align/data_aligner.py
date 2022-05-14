@@ -54,10 +54,10 @@ class PrimitiveDataAligner(MyDataAligner):
             yield segment
 
 
-class DataAligner(MyDataAligner):
+class DataAlignerV2(MyDataAligner):
 
     def __init__(self, chunk_size, segmenter: AbstractSegmenter):
-        super(DataAligner, self).__init__(chunk_size, segmenter)
+        super(DataAlignerV2, self).__init__(chunk_size, segmenter)
 
     def do(self, files: list):
         if len(files) == 0:
@@ -80,4 +80,32 @@ class DataAligner(MyDataAligner):
         segment = self.segmenter.flush()
         if segment is not None:
             yield segment
+
+
+class DataAlignerV1(MyDataAligner):
+
+    def __init__(self, chunk_size, segmenter: AbstractSegmenter):
+        super(DataAlignerV1, self).__init__(chunk_size, segmenter)
+
+    def do(self, files: list):
+        if len(files) == 0:
+            raise Exception("There is no files to work with")
+        lcp = Path(files[0]).parent
+        for file in files:
+            if lcp not in Path(file).parent.parents:
+                if self.segmenter.current_segment.size >= self.min_segment_size:
+                    segment = self.segmenter.flush()
+                    if segment is not None:
+                        yield segment
+            lcp = Path(file).parent
+            with open(file, 'rb') as f:
+                chunks = self.chunker.do(f)
+            for chunk in chunks:
+                segment = self.segmenter.push(chunk)
+                if segment is not None:
+                    yield segment
+        segment = self.segmenter.flush()
+        if segment is not None:
+            yield segment
+
 

@@ -39,5 +39,6 @@ class Deduplicator:
         print("New: ", self.n_new, "Deduplicated: ", self.n_dedup, "Duplicates: ", self.n_dup)
         logging.info("Deduplication results:")
         logging.info("New: " + str(self.n_new) + " Deduplicated: " + str(self.n_dedup) + " Duplicates: " + str(self.n_dup))
-        self.chunk_store.print()
+        logging.info("MAX DD%   " )
+        self.chunk_store.print(self.total_saved_space)
         logging.info("Total saved space: " + str(self.total_saved_space))
