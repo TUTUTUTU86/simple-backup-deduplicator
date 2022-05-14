@@ -41,8 +41,6 @@ class PrimitiveDataAligner(MyDataAligner):
         if len(files) == 0:
             raise Exception("There is no files to work with")
         for i, file in enumerate(files):
-            if i % 1000 == 0:
-                print(i)
             with open(file, 'rb') as f:
                 chunks = self.chunker.do(f)
             for chunk in chunks:
