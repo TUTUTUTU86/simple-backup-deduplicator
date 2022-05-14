@@ -19,9 +19,9 @@ class ChunkStore:
             return 0
 
     def print(self, total_saved_space):
-        logging.info("Total store size: " + str(self.total_store_size + total_saved_space))
+        logging.info("Total store size: " + str(self.total_store_size))
         logging.info("Total ineffective size: " + str(self.total_ineffective_space + total_saved_space))
-        max_dd = (1 - ((self.total_store_size + total_saved_space) / (self.total_ineffective_space + total_saved_space))) * 100
+        max_dd = (1 - (self.total_store_size / (self.total_ineffective_space + total_saved_space))) * 100
         real_dd = (1 - (self.total_ineffective_space / (self.total_ineffective_space + total_saved_space))) * 100
         logging.info("MaxDD%   " + str(max_dd))
         logging.info("RealDD%   " + str(real_dd))
