@@ -51,7 +51,7 @@ class LinuxTest:
 
     def deduplicate_zips(self, versions: list):
         for data in versions:
-            self.sparse_index.do(LINUX_DATA_ROOT / data.value)
+            self.sparse_index.do([LINUX_DATA_ROOT / data.value])
             self.sparse_index.print()
 
     def deduplicate_folders(self, versions: list):
