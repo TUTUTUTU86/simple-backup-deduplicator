@@ -50,8 +50,9 @@ class LinuxTest:
         self.cfg = cfg
 
     def deduplicate_zips(self, versions: list):
-        self.sparse_index.do([(LINUX_DATA_ROOT / data.value) for data in versions])
-        self.sparse_index.print()
+        for data in versions:
+            self.sparse_index.do(LINUX_DATA_ROOT / data.valuefor)
+            self.sparse_index.print()
 
     def deduplicate_folders(self, versions: list):
 
