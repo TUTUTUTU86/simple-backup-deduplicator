@@ -122,4 +122,5 @@ class LinuxTest:
         logging.info("------------------NEW TEST-------------------")
 
     def current_testing(self):
+        self.test_with_all_linux_versions_folders()
         self.test_with_all_linux_versions_tars()

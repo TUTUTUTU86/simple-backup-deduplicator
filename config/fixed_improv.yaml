@@ -3,7 +3,7 @@ data_aligner:
   chunk_size: &chunk_size 1024
   segmenter:
     _target_: src.dd.align.segmenter.FixedSizeSegmenter
-    segment_size: 1048576
+    segment_size: 838860
 #  segmenter:
 #    _target_: src.dd.align.segmenter.VariableSizeSegmenter
 #    chunk_size: *chunk_size

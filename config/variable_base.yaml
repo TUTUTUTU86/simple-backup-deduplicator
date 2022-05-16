@@ -10,7 +10,7 @@ data_aligner:
     rolling_hash:
       q: 1000000007
       x: 7
-    segment_size: 1048576
+    segment_size: 838860
 
 
 captain_hook:
